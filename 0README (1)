@@ -1,0 +1,29 @@
+### Guide to files in this folder
+These TSR files were generated from public data found at the FANTOM5 consortium database. The web address is here: https://fantom.gsc.riken.jp/5/datafiles/latest/basic/human.cell_line.hCAGE/
+
+The files themselves were selected largely arbitrarily but also to reflect a broad array of tissue types, including a phenotypically normal cell line.
+
+TSR File name 	     Short description
+TSRset-1_AML.tab     Acute myeloid leukemia cell line
+TSRset-2_B20.tab     B20 lymphoblastoid cell line
+TSRset-3_NEM.tab     Normal embryonic palatal mesenchymal cell line
+TSRset-4_PC.tab	     Prostate cancer cell line
+
+The original data files are in BAM format, a binary version of the SAM alignment format. I have not uploaded the original files themselves but they are available on my cluster along with the scripts used to process the data using TSRchitect <https://bioconductor.org/packages/release/bioc/html/TSRchitect.html>.
+
+The files in .tab format are organized in the following way:
+
+##     seq    start      end strand nTSSs nTAGs tsrPeak tsrWdth tsrTrq tsrSI
+##  chr22 11974144 11974144      -     1    44    1.00       1   0.00  2.00
+##  chr22 11974187 11974199      -     3   141    0.47      13   1.32  0.48
+
+##   tsrMSI
+##    1.00
+##    0.04
+
+Where 'seq' refers to the chromosome, 'start' refers to the TSR's start coordinate on that chromosome 'end' refers to the end position of the TSR. 'Strand' refers to the strand on the chromsome (+ or -), nTSSs refers to the number of unique TSS position reflected by the TSR, nTAGs refers to the number of sequences or 'tags' found in that TSR. 'tsrPeak' refers to the total fraction of tags found in the peak. 'tsrWdth' refers to the width of TSR (the absolute value of start - end). 'tsrTrq' refers to the torque of the tags within the TSR ie is it balanced with evenly-distributed tags or not. Finally, 'tsrSI' and 'tsrMSI' refer to TSR shape. The former is a modified Shannon Entropy score between 2 (completely peaked) and ~-4 or more (competely broad). The latter value tsrSI is a scaled version of Shannon Entropy that we developed. Completely peaked is 1, and completely broad is 0.
+
+The combined files TSRsetMerged-1.txt and TSRsetMerged-1.bed have merged data (TSRs collected from TSSs of all samples combined)  in column-labeled and BED formats, respectively.
+
+Please let me know if you have any questions- we can discuss this via Zoom if you'd like as well.
+-Taylor

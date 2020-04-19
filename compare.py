@@ -23,7 +23,7 @@ def comparingFiles(mrnaRegions, tsrfile1, tsrfile2, tsrfile3, tsrfile4):
                 if parse[0] != chrom:
                     break
 
-                if parse[1] >= start and parse[2] <= end:
+                if int(parse[1]) >= int(start) and int(parse[2]) <= int(end):
                     genePeakDict[ID][parse[3]].append(parse)
 
             for t in tsrLines2:
@@ -32,7 +32,7 @@ def comparingFiles(mrnaRegions, tsrfile1, tsrfile2, tsrfile3, tsrfile4):
                 if parse[0] != chrom:
                     break
 
-                if parse[1] >= start and parse[2] <= end:
+                if int(parse[1]) >= int(start) and int(parse[2]) <= int(end):
                     genePeakDict[ID][parse[3]].append(parse)
 
             for t in tsrLines3:
@@ -41,7 +41,7 @@ def comparingFiles(mrnaRegions, tsrfile1, tsrfile2, tsrfile3, tsrfile4):
                 if parse[0] != chrom:
                     break
 
-                if parse[1] >= start and parse[2] <= end:
+                if int(parse[1]) >= int(start) and int(parse[2]) <= int(end):
                     genePeakDict[ID][parse[3]].append(parse)
 
             for t in tsrLines4:
@@ -50,7 +50,7 @@ def comparingFiles(mrnaRegions, tsrfile1, tsrfile2, tsrfile3, tsrfile4):
                 if parse[0] != chrom:
                     break
 
-                if parse[1] >= start and parse[2] <= end:
+                if int(parse[1]) >= int(start) and int(parse[2]) <= int(end):
                     genePeakDict[ID][parse[3]].append(parse)
 
             fileWrite.write("\t{}:\n".format('+'))

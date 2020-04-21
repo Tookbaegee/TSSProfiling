@@ -7,6 +7,10 @@ def comparingFiles(mrnaRegions, tsrfile1, tsrfile2, tsrfile3, tsrfile4):
         tsrLines3 = tsr3.readlines()
         tsrLines4 = tsr4.readlines()
         genePeakDict = dict()
+        tsr1_peaks = dict()
+        tsr2_peaks = dict()
+        tsr3_peaks = dict()
+        tsr4_peaks = dict()
 
         for line in mrnaLines:
             chrom, ID, start, end, strand = line.split()
@@ -14,6 +18,10 @@ def comparingFiles(mrnaRegions, tsrfile1, tsrfile2, tsrfile3, tsrfile4):
 
             if ID not in genePeakDict:
                 genePeakDict[ID] = {'+': [], '-': []}
+                tsr1_peaks[ID] = {'+': [], '-': []}
+                tsr2_peaks[ID] = {'+': [], '-': []}
+                tsr3_peaks[ID] = {'+': [], '-': []}
+                tsr4_peaks[ID] = {'+': [], '-': []}
 
 
             # genePeakDict[chrom][strand].append('here')
@@ -25,6 +33,7 @@ def comparingFiles(mrnaRegions, tsrfile1, tsrfile2, tsrfile3, tsrfile4):
 
                 if int(parse[1]) >= int(start) and int(parse[2]) <= int(end):
                     genePeakDict[ID][parse[3]].append(parse)
+                    tsr1_peaks[ID][parse[3]].append(parse)
 
             for t in tsrLines2:
                 parse = t.split()
@@ -34,6 +43,7 @@ def comparingFiles(mrnaRegions, tsrfile1, tsrfile2, tsrfile3, tsrfile4):
 
                 if int(parse[1]) >= int(start) and int(parse[2]) <= int(end):
                     genePeakDict[ID][parse[3]].append(parse)
+                    tsr2_peaks[ID][parse[3]].append(parse)
 
             for t in tsrLines3:
                 parse = t.split()
@@ -43,6 +53,7 @@ def comparingFiles(mrnaRegions, tsrfile1, tsrfile2, tsrfile3, tsrfile4):
 
                 if int(parse[1]) >= int(start) and int(parse[2]) <= int(end):
                     genePeakDict[ID][parse[3]].append(parse)
+                    tsr3_peaks[ID][parse[3]].append(parse)
 
             for t in tsrLines4:
                 parse = t.split()
@@ -52,6 +63,7 @@ def comparingFiles(mrnaRegions, tsrfile1, tsrfile2, tsrfile3, tsrfile4):
 
                 if int(parse[1]) >= int(start) and int(parse[2]) <= int(end):
                     genePeakDict[ID][parse[3]].append(parse)
+                    tsr4_peaks[ID][parse[3]].append(parse)
 
             fileWrite.write("\t{}:\n".format('+'))
             for value in genePeakDict[ID]['+']:

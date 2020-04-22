@@ -84,7 +84,7 @@ def comparingFiles(mrnaRegions, tsrfile1, tsrfile2, tsrfile3, tsrfile4):
                 if int(parse[1]) >= int(start) and int(parse[2]) <= int(end):
                     genePeakDict[ID][parse[3]].append(parse)
                     tsr1_peaks[ID][parse[3]].append(parse)
-                    writer1.writerow({'chrom': chrom, 'ID': ID, 'start': start, 'end': end, 'strand': strand, 'nTSS': parse[4], 'nTags': parse[5] , 'tsrwidth': parse[7] })
+                    writer1.writerow({'chrom': chrom, 'ID': ID, 'start': parse[1], 'end': parse[2], 'strand': parse[3], 'nTSS': parse[4], 'nTags': parse[5] , 'tsrwidth': parse[7] })
                 prev = parse[0]
 
 
@@ -128,7 +128,7 @@ def comparingFiles(mrnaRegions, tsrfile1, tsrfile2, tsrfile3, tsrfile4):
                 if int(parse[1]) >= int(start) and int(parse[2]) <= int(end):
                     genePeakDict[ID][parse[3]].append(parse)
                     tsr2_peaks[ID][parse[3]].append(parse)
-                    writer2.writerow({'chrom': chrom, 'ID': ID, 'start': start, 'end': end, 'strand': strand, 'nTSS': parse[4], 'nTags': parse[5] , 'tsrwidth': parse[7] })
+                    writer2.writerow({'chrom': chrom, 'ID': ID, 'start': parse[1], 'end': parse[2], 'strand': parse[3], 'nTSS': parse[4], 'nTags': parse[5] , 'tsrwidth': parse[7] })
                 prev = parse[0]
 
         writer3 = csv.DictWriter(tsr3_write, fieldnames=fieldNames)
@@ -163,7 +163,7 @@ def comparingFiles(mrnaRegions, tsrfile1, tsrfile2, tsrfile3, tsrfile4):
                 if int(parse[1]) >= int(start) and int(parse[2]) <= int(end):
                     genePeakDict[ID][parse[3]].append(parse)
                     tsr3_peaks[ID][parse[3]].append(parse)
-                    writer3.writerow({'chrom': chrom, 'ID': ID, 'start': start, 'end': end, 'strand': strand, 'nTSS': parse[4], 'nTags': parse[5] , 'tsrwidth': parse[7] })
+                    writer3.writerow({'chrom': chrom, 'ID': ID, 'start': parse[1], 'end': parse[2], 'strand': parse[3], 'nTSS': parse[4], 'nTags': parse[5] , 'tsrwidth': parse[7] })
                 prev = parse[0]
 
         writer4 = csv.DictWriter(tsr4_write, fieldnames=fieldNames)
@@ -198,7 +198,7 @@ def comparingFiles(mrnaRegions, tsrfile1, tsrfile2, tsrfile3, tsrfile4):
                 if int(parse[1]) >= int(start) and int(parse[2]) <= int(end):
                     genePeakDict[ID][parse[3]].append(parse)
                     tsr4_peaks[ID][parse[3]].append(parse)
-                    writer4.writerow({'chrom': chrom, 'ID': ID, 'start': start, 'end': end, 'strand': strand, 'nTSS': parse[4], 'nTags': parse[5] , 'tsrwidth': parse[7] })
+                    writer4.writerow({'chrom': chrom, 'ID': ID, 'start': parse[1], 'end': parse[2], 'strand': parse[3], 'nTSS': parse[4], 'nTags': parse[5] , 'tsrwidth': parse[7]})
                 prev = parse[0]
 
         return [tsr1_peaks, tsr2_peaks, tsr3_peaks, tsr4_peaks]

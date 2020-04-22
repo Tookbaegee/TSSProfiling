@@ -23,7 +23,7 @@ def normalize(ts1_csv, ts2_csv, ts3_csv, ts4_csv):
     # now use MinMaxScaler to scale each data set for range (0, 1)
     from scipy import stats 
     from sklearn.preprocessing import MinMaxScaler
-    scaler1 = MinMaxScaler(feature_range=(0,1))
+    scaler = MinMaxScaler(feature_range=(0,1))
     scaler1 = scaler1.fit(data_val1)
     scaler2 = MinMaxScaler(feature_range=(0,1))
     scaler2 = scaler2.fit(data_val2)
@@ -34,9 +34,9 @@ def normalize(ts1_csv, ts2_csv, ts3_csv, ts4_csv):
 
     # finally normalize the data
     norm1 = scaler1.transform(data_val1)
-    norm2 = scaler1.transform(data_val2)
-    norm3 = scaler1.transform(data_val3)
-    norm4 = scaler1.transform(data_val4)
+    norm2 = scaler2.transform(data_val2)
+    norm3 = scaler3.transform(data_val3)
+    norm4 = scaler4.transform(data_val4)
 
     '''
     Later we will be able to use these normalized values to run paired t test

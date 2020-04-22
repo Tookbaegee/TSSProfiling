@@ -23,7 +23,7 @@ def normalize(ts1_csv, ts2_csv, ts3_csv, ts4_csv):
     # now use MinMaxScaler to scale each data set for range (0, 1)
     from scipy import stats 
     from sklearn.preprocessing import MinMaxScaler
-    scaler = MinMaxScaler(feature_range=(0,1))
+    scaler1 = MinMaxScaler(feature_range=(0,1))
     scaler1 = scaler1.fit(data_val1)
     scaler2 = MinMaxScaler(feature_range=(0,1))
     scaler2 = scaler2.fit(data_val2)

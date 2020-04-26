@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 import csv
 from scipy.stats import wilcoxon
+from itertools import chain
 
 def normalize(ts1_csv, ts2_csv, ts3_csv, ts4_csv):
     # only use columns we want and read the csv for each file
@@ -41,6 +42,9 @@ def normalize(ts1_csv, ts2_csv, ts3_csv, ts4_csv):
 
     print(norm1)
     print(norm2)
+    print(norm3)
+    print(norm4)
+
     with open(ts1_csv, 'r') as tsr1, open(ts2_csv, 'r') as tsr2, open(ts3_csv, 'r') as tsr3, open(ts4_csv, 'r') as tsr4:
         tsr1_lines = csv.reader(tsr1)
         tsr2_lines = csv.reader(tsr2)
@@ -125,6 +129,7 @@ def normalize(ts1_csv, ts2_csv, ts3_csv, ts4_csv):
         for line in lines:
             t = line.split()
             regions.append(t[1])
+
     test_ts1_tsr2_ps, test_ts1_tsr2_ns = coxonTest(tsr1_data, tsr2_data, regions)
     test_ts1_tsr3_ps, test_ts1_tsr3_ns = coxonTest(tsr1_data, tsr3_data, regions)
     test_ts1_tsr4_ps, test_ts1_tsr4_ns = coxonTest(tsr1_data, tsr4_data, regions)
@@ -132,16 +137,97 @@ def normalize(ts1_csv, ts2_csv, ts3_csv, ts4_csv):
     test_ts2_tsr4_ps, test_ts2_tsr4_ns = coxonTest(tsr2_data, tsr4_data, regions)
     test_ts3_tsr4_ps, test_ts3_tsr4_ns = coxonTest(tsr3_data, tsr4_data, regions)
 
-    count1 = 0
-    count2 = 0
-    for x in test_ts3_tsr4_ps:
-        if test_ts3_tsr4_ps[x] < .5:
-            count1+=1
+    test_tsr1_tsr2_ps_altpromoters = []
+    test_tsr1_tsr2_ns_altpromoters = []
+
+    test_tsr1_tsr3_ps_altpromoters = []
+    test_tsr1_tsr3_ns_altpromoters = []
+
+    test_tsr1_tsr4_ps_altpromoters = []
+    test_tsr1_tsr4_ns_altpromoters = []
+
+    test_tsr2_tsr3_ps_altpromoters = []
+    test_tsr2_tsr3_ns_altpromoters = []
+
+    test_tsr2_tsr4_ps_altpromoters = []
+    test_tsr2_tsr4_ns_altpromoters = []
+
+    test_tsr3_tsr4_ps_altpromoters = []
+    test_tsr3_tsr4_ns_altpromoters = []
+
+    for x in test_ts1_tsr2_ps:
+        if test_ts1_tsr2_ps[x] < .32:
+            test_tsr1_tsr2_ps_altpromoters.append(x)
+    for x in test_ts1_tsr2_ns:
+        if test_ts1_tsr2_ns[x] < .32:
+            test_tsr1_tsr2_ns_altpromoters.append(x)
+
+    for x in test_ts1_tsr3_ps:
+        if test_ts1_tsr3_ps[x] < .32:
+            test_tsr1_tsr3_ps_altpromoters.append(x)
+    for x in test_ts1_tsr3_ns:
+        if test_ts1_tsr3_ns[x] < .32:
+            test_tsr1_tsr3_ns_altpromoters.append(x)
+
+    for x in test_ts1_tsr4_ps:
+        if test_ts1_tsr4_ps[x] < .32:
+            test_tsr1_tsr4_ps_altpromoters.append(x)
+    for x in test_ts1_tsr4_ns:
+        if test_ts1_tsr4_ns[x] < .32:
+            test_tsr1_tsr4_ns_altpromoters.append(x)
+
+    for x in test_ts2_tsr3_ps:
+        if test_ts2_tsr3_ps[x] < .32:
+            test_tsr2_tsr3_ps_altpromoters.append(x)
+    for x in test_ts2_tsr3_ns:
+        if test_ts2_tsr3_ns[x] < .32:
+            test_tsr2_tsr3_ns_altpromoters.append(x)
+
     for x in test_ts2_tsr4_ps:
-        if test_ts2_tsr4_ps[x] < .5:
-            count2+=1
-    print(count1)
-    print(count2)
+        if test_ts2_tsr4_ps[x] < .32:
+            test_tsr2_tsr4_ps_altpromoters.append(x)
+    for x in test_ts2_tsr4_ns:
+        if test_ts2_tsr4_ns[x] < .32:
+            test_tsr2_tsr4_ns_altpromoters.append(x)
+
+    for x in test_ts3_tsr4_ps:
+        if test_ts3_tsr4_ps[x] < .32:
+            test_tsr3_tsr4_ps_altpromoters.append(x)
+    for x in test_ts3_tsr4_ns:
+        if test_ts3_tsr4_ns[x] < .32:
+            test_tsr3_tsr4_ns_altpromoters.append(x)
+
+    alternativePromoters = []
+    # finds promoters unique to each wilcoxon test
+    for gene in test_tsr1_tsr2_ps_altpromoters:
+        if gene not in chain(test_tsr1_tsr3_ps_altpromoters, test_tsr1_tsr4_ps_altpromoters, test_tsr2_tsr3_ps_altpromoters, 
+                                test_tsr2_tsr4_ps_altpromoters, test_tsr3_tsr4_ps_altpromoters):
+            alternativePromoters.append(gene)
+    for gene in test_tsr1_tsr3_ps_altpromoters:
+        if gene not in chain(test_tsr1_tsr2_ps_altpromoters, test_tsr1_tsr4_ps_altpromoters, test_tsr2_tsr3_ps_altpromoters, 
+                                test_tsr2_tsr4_ps_altpromoters, test_tsr3_tsr4_ps_altpromoters) and gene not in alternativePromoters:
+            alternativePromoters.append(gene)
+    for gene in test_tsr1_tsr4_ps_altpromoters:
+        if gene not in chain(test_tsr1_tsr2_ps_altpromoters, test_tsr1_tsr3_ps_altpromoters, test_tsr2_tsr3_ps_altpromoters, 
+                                test_tsr2_tsr4_ps_altpromoters, test_tsr3_tsr4_ps_altpromoters) and gene not in alternativePromoters:
+            alternativePromoters.append(gene)
+    for gene in test_tsr2_tsr3_ps_altpromoters:
+        if gene not in chain(test_tsr1_tsr2_ps_altpromoters, test_tsr1_tsr3_ps_altpromoters, test_tsr1_tsr4_ps_altpromoters, 
+                                test_tsr2_tsr4_ps_altpromoters, test_tsr3_tsr4_ps_altpromoters) and gene not in alternativePromoters:
+            alternativePromoters.append(gene)
+    for gene in test_tsr2_tsr4_ps_altpromoters:
+        if gene not in chain(test_tsr1_tsr2_ps_altpromoters, test_tsr1_tsr3_ps_altpromoters, test_tsr1_tsr4_ps_altpromoters, 
+                                test_tsr2_tsr3_ps_altpromoters, test_tsr3_tsr4_ps_altpromoters) and gene not in alternativePromoters:
+            alternativePromoters.append(gene)
+    for gene in test_tsr3_tsr4_ps_altpromoters:
+        if gene not in chain(test_tsr1_tsr2_ps_altpromoters, test_tsr1_tsr3_ps_altpromoters, test_tsr1_tsr4_ps_altpromoters, 
+                                test_tsr2_tsr4_ps_altpromoters, test_tsr2_tsr3_ps_altpromoters) and gene not in alternativePromoters:
+            alternativePromoters.append(gene)         
+
+    with open('alternativePromoters.txt', 'w') as promoterFile:
+        for promoter in alternativePromoters:
+            promoterFile.write(promoter + "\n")
+    print(alternativePromoters)
 
 def coxonTest(tsr1_data, tsr2_data, regions):
     positiveT = {}

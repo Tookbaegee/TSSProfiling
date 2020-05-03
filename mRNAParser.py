@@ -67,13 +67,15 @@ def calcRange():
         for gene in genes:
             minStart = sys.maxsize
             maxStart = 0
-            for start, _ , _ in genes[gene]:
+            for start, _ , currStrand in genes[gene]:
                 if start < minStart:
                     minStart = start
                 if start > maxStart:
                     maxStart = start
-            genesInt[gene] = (minStart - 20000, maxStart)
-
+            if gene[2] == "+":
+                genesInt[gene] = (minStart - 20000, maxStart)
+            else:
+                genesInt[gene] = (minStart, maxStart + 20000)
 
 
         with open("promoterRegions.txt", "w") as promoterfile:
